@@ -8,43 +8,43 @@ module.exports = (args) => {
         {
             type: 'input',
             name: 'package',
-            message: 'Package Name?'
+            message: 'Package Name:'
         },
         {
             type: 'input',
             name: 'groupId',
-            message: 'Group ID (Maven artifact groupId for all projects)?'
+            message: 'Group ID (Maven artifact groupId for all projects):'
         },
         {
             type: 'input',
             name: 'artifactId',
-            message: 'Artifact ID (Maven artifact "root" artifactId, is suffixed for the individual modules)?'
+            message: 'Artifact ID (Maven artifact "root" artifactId, is suffixed for the individual modules):'
         },
         {
             type: 'input',
             name: 'version',
-            message: 'Starting Maven Version Number?'
+            message: 'Starting Maven Version Number:'
         },
         {
             type: 'input',
             name: 'projectTitle',
-            message: 'Project Title (descriptive project name)?'
+            message: 'Project Title (descriptive project name):'
         },
         {
             type: 'input',
             name: 'projectName',
-            message: 'Project Name (Used for building AEM apps path, content path, conf etc. Should not include spaces or special characters)?'
+            message: 'Project Name (Used for building AEM apps path, content path, conf etc. Should not include spaces or special characters):'
             //TODO add validation for this one since it does break stuff
         },
         {
             type: 'input',
             name: 'componentGroup',
-            message: 'Component Group (Name of the component group in AEM Editor)?'
+            message: 'Component Group (Name of the component group in AEM Editor):'
         },
         {
             type: 'list',
             name: 'optionFrontend',
-            message: 'Front End Framework?',
+            message: 'Front End Framework:',
             choices: ['angular', 'react']
         }
     ];
