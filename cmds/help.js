@@ -8,9 +8,7 @@ const menus = {
     help ............... show help menu for a command`,
 
     create: `
-    aem-spa create <options>
-
-    --framework, -f ..... the framework to use, accepted options are angular or react`,
+    aem-spa create <options>`,
 
     generate: `
     aem-spa generate <options>
