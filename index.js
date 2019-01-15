@@ -5,7 +5,6 @@ module.exports = () => {
     console.log('AEM SPA CLI!');
     const args = minimist(process.argv.slice(2));
     let cmd = args._[0];
-    console.log(args);
 
     if (args.version || args.v) {
         cmd = 'version';
