@@ -1,0 +1,13 @@
+{
+  "name": "aem-spa-cli",
+  "version": "0.0.1",
+  "license": "Apache",
+  "bin": {
+    "aem-spa": "bin/aem-spa"
+  },
+  "scripts": {},
+  "devDependencies": {},
+  "dependencies": {
+    "minimist": "^1.2.0"
+  }
+}
