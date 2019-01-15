@@ -4,6 +4,8 @@ const ora = require('ora')
 
 module.exports = (args) => {
 
+    console.log('Creating a new AEM SPA project, please answer the following questions:');
+
     let questions = [
         {
             type: 'input',
@@ -46,6 +48,12 @@ module.exports = (args) => {
             name: 'optionFrontend',
             message: 'Front End Framework:',
             choices: ['angular', 'react']
+        },
+        {
+            type: 'confirm',
+            name: 'allGood',
+            message: 'Review your above selections. Ready to create project?',
+            default: false
         }
     ];
 
@@ -66,11 +74,16 @@ module.exports = (args) => {
             'componentGroup': answers['componentGroup'],
             'optionFrontend': answers['optionFrontend']
         };
-        const spinner = ora().start();
-        mvn.execute(commands, defines).then(() => {
-            spinner.stop();
-        }).catch((error) => {
-            console.log(error);
-        });
+        if (answers['allGood']) {
+            const spinner = ora('Creating Project').start();
+            mvn.execute(commands, defines).then(() => {
+                spinner.stop();
+            }).catch((error) => {
+                console.log(error);
+                spinner.stop();
+            });
+        } else {
+            console.log('Exiting project creation...');
+        }
     });
 };
