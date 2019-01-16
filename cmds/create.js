@@ -9,33 +9,35 @@ module.exports = (args) => {
     let questions = [
         {
             type: 'input',
-            name: 'package',
-            message: 'Package Name:'
-        },
-        {
-            type: 'input',
             name: 'groupId',
-            message: 'Group ID (Maven artifact groupId for all projects):'
+            message: 'Group ID (Maven artifact groupId for all projects):',
+            default: function () {
+                return 'com.myco';
+            }
         },
         {
             type: 'input',
             name: 'artifactId',
-            message: 'Artifact ID (Maven artifact "root" artifactId, is suffixed for the individual modules):'
+            message: 'Artifact ID (Maven artifact "root" artifactId, is suffixed for the individual modules):',
+            default: function () {
+                return 'example-project';
+            }
         },
         {
             type: 'input',
             name: 'version',
-            message: 'Starting Maven Version Number:'
-        },
-        {
-            type: 'input',
-            name: 'projectTitle',
-            message: 'Project Title (descriptive project name):'
+            message: 'Starting Maven Version Number:',
+            default: function () {
+                return '0.0.1-SNAPSHOT';
+            }
         },
         {
             type: 'input',
             name: 'projectName',
             message: 'Project Name (Used for building AEM apps path, content path, conf etc. Should not include spaces or special characters):',
+            default: function () {
+                return 'somethingCool';
+            },
             validate: function (value) {
                 var pass = value.match('^[a-zA-Z0-9]*$');
                 if (pass) {
@@ -47,8 +49,27 @@ module.exports = (args) => {
         },
         {
             type: 'input',
+            name: 'package',
+            message: 'Package Name:',
+            default: function () {
+                return 'com.myco.somethingCool';
+            }
+        },
+        {
+            type: 'input',
+            name: 'projectTitle',
+            message: 'Project Title (descriptive project name):',
+            default: function () {
+                return 'Something Cool';
+            }
+        },
+        {
+            type: 'input',
             name: 'componentGroup',
-            message: 'Component Group (Name of the component group in AEM Editor):'
+            message: 'Component Group (Name of the component group in AEM Editor):',
+            default: function () {
+                return 'somethingCool';
+            }
         },
         {
             type: 'list',
