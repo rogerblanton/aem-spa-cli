@@ -2,6 +2,7 @@ const minimist = require('minimist');
 const error = require('./utils/error');
 
 module.exports = () => {
+    console.log('*** AEM SPA CLI BETA ***')
     const args = minimist(process.argv.slice(2));
     let cmd = args._[0];
 
