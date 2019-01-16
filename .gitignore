@@ -59,3 +59,16 @@ typings/
 
 # next.js build output
 .next
+
+# Eclipse
+.classpath
+.project
+.settings/
+
+# Intellij
+.idea/
+*.iml
+*.iws
+
+# Mac
+.DS_Store
