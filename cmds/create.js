@@ -35,8 +35,15 @@ module.exports = (args) => {
         {
             type: 'input',
             name: 'projectName',
-            message: 'Project Name (Used for building AEM apps path, content path, conf etc. Should not include spaces or special characters):'
-            //TODO add validation for this one since it does break stuff
+            message: 'Project Name (Used for building AEM apps path, content path, conf etc. Should not include spaces or special characters):',
+            validate: function (value) {
+                var pass = value.match('^[a-zA-Z0-9]*$');
+                if (pass) {
+                    return true;
+                }
+
+                return 'Please enter a valid name. Cannot include spaces or special characters';
+            }
         },
         {
             type: 'input',
@@ -53,7 +60,9 @@ module.exports = (args) => {
             type: 'confirm',
             name: 'allGood',
             message: 'Review your above selections. Ready to create project?',
-            default: false
+            default: function () {
+                return false;
+            }
         }
     ];
 
