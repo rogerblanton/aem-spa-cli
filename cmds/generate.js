@@ -3,7 +3,7 @@ const findRoot = require('find-root');
 const path = require('path');
 let isAngularProject = false;
 let isReactProject = false;
-// const aemSpaProjectRoot = '';
+let componentjsText = require('../templates/component-js');
 
 module.exports = (args) => {
     let item = args._[1];
@@ -43,6 +43,7 @@ function generateComponent(projectRoot, name) {
     if (isReactProject) {
 
         let aemName = name;
+        //TODO get project name in here
         let aemPath = projectRoot + '/ui.apps/src/main/content/jcr_root/apps/reactApp/components/' + aemName;
         name = name.replace(/^\w/, c => c.toUpperCase());
         let reactComponentPath = projectRoot + '/react-app/src/components/' + name;
@@ -61,12 +62,12 @@ function generateComponent(projectRoot, name) {
                 console.log('Created AEM component content xml');
             });
 
-            fs.outputFile(reactComponentPath + '/' + name + '.js', 'hello!', function(err) {
+            fs.outputFile(reactComponentPath + '/' + name + '.js', componentjsText.getJsContent(name, aemName), function(err) {
                 if (err) throw err;
                 console.log('Created React component js file');
             });
 
-            fs.outputFile(reactComponentPath + '/' + name + '.css', 'hello!', function(err) {
+            fs.outputFile(reactComponentPath + '/' + name + '.css', '', function(err) {
                 if (err) throw err;
                 console.log('Created React component css file');
             });
