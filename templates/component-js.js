@@ -25,9 +25,9 @@ module.exports = {
             "    }\n" +
             "};\n" +
             " \n" +
+            "// TODO replace the below example code with your actual code" +
             "/**\n" +
             "* " + name + " React component\n" +
-            " TODO replace the below example code with your actual code" +
             "*/\n" +
             "class" + name + "extends Component {\n" +
             " \n" +
