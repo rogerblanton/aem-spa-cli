@@ -1,11 +1,11 @@
 
 module.exports = {
 
-    getJsContent: (name, aemName) => {
+    getJsContent: (name, aemName, projectFolder) => {
         return "/*\n" +
             name + ".js\n" +
             " \n" +
-            "Maps to reactApp/components/content/" + aemName + "\n" + //TODO get actual project name in here
+            "Maps to" + projectFolder +"/components/content/" + aemName + "\n" +
             "*/\n" +
             " \n" +
             "import React, {Component} from 'react';\n" +
@@ -13,7 +13,7 @@ module.exports = {
             "import {MapTo} from '@adobe/cq-react-editable-components';\n" +
             "/**\n" +
             "* Default Edit configuration for the Text component that interact with the Core Text component and sub-types\n" +
-            "*\n" +
+            "* TODO replace below with the code you need\n" +
             "* @type EditConfig\n" +
             "*/\n" +
             "const " + name + "EditConfig = {\n" +
@@ -44,7 +44,7 @@ module.exports = {
             "    }\n" +
             "}\n" +
             " \n" +
-            "MapTo('" + aemName + "/components/content/text')(" + name + ", " + name + "EditConfig);";
+            "MapTo('" + projectFolder + "/components/content/'"+ aemName + ")(" + name + ", " + name + "EditConfig);";
 
     }
 };
