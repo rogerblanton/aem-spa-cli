@@ -4,6 +4,9 @@ const path = require('path');
 let isAngularProject = false;
 let isReactProject = false;
 let reactComponentJsText = require('../templates/react/react-component-js');
+let aemComponentContentXml = require('../templates/aem/aem-component-content-xml');
+let aemComponentEditConfig = require('../templates/aem/aem-component-edit-config');
+let aemComponentHtml = require('../templates/aem/aem-component-html');
 
 module.exports = (args) => {
     let item = args._[1];
@@ -14,10 +17,15 @@ module.exports = (args) => {
         projectFolder = args.projectFolder || args.p;
     }
 
+    let superType = null;
+    if (args.superType || args.s) {
+        superType = args.superType || args.s;
+    }
+
     let componentGroup = null;
 
-    if (args.componentGroup | args.c) {
-        componentGroup = args.componentGroup | args.c;
+    if (args.componentGroup || args.c) {
+        componentGroup = args.componentGroup || args.c;
     }
 
     const aemSpaProjectRoot = findRoot(process.cwd(), function (dir) {
@@ -32,12 +40,12 @@ module.exports = (args) => {
         switch (item) {
             case 'template':
                 console.log('going to generate a template named ' + name);
-                generateTemplate(aemSpaProjectRoot, name, projectFolder, componentGroup);
+                generateTemplate(aemSpaProjectRoot, name, projectFolder, componentGroup, superType);
                 break;
 
             case 'component':
                 console.log('going to generate a component named ' + name);
-                generateComponent(aemSpaProjectRoot, name, projectFolder, componentGroup);
+                generateComponent(aemSpaProjectRoot, name, projectFolder, componentGroup, superType);
                 break;
 
             default:
@@ -51,7 +59,7 @@ module.exports = (args) => {
 };
 
 
-function generateComponent(projectRoot, name, projectFolder, componentGroup) {
+function generateComponent(projectRoot, name, projectFolder, componentGroup, superType) {
     if (isReactProject) {
 
         if (componentGroup == null) {
@@ -64,21 +72,26 @@ function generateComponent(projectRoot, name, projectFolder, componentGroup) {
             projectFolder = 'reactApp';
         }
 
+        if (superType == null) {
+            console.log('using default superType of core text component');
+            superType = "core/wcm/components/text/v2/text";
+        }
+
         let aemName = name;
         let aemPath = projectRoot + '/ui.apps/src/main/content/jcr_root/apps/' + projectFolder + '/components/' + aemName;
         name = name.replace(/^\w/, c => c.toUpperCase());
-        let reactComponentPath = projectRoot + '/' + projectFolder + '/src/components/' + name;
+        let reactComponentPath = projectRoot + '/react-app/src/components/' + name;
         let componentExists = fs.existsSync(path.resolve(projectRoot, projectFolder + '/src/components/' + name));
         if (componentExists) {
             console.log(name + ' component already exists, please create something else');
         } else {
 
-            fs.outputFile(aemPath + '/_cq_editConfig.xml', 'hello!', function(err) {
+            fs.outputFile(aemPath + '/_cq_editConfig.xml', aemComponentEditConfig.getEditConfig(), function(err) {
                 if (err) throw err;
                 console.log('Created AEM component edit config');
             });
 
-            fs.outputFile(aemPath + '/.content.xml', 'hello!', function(err) {
+            fs.outputFile(aemPath + '/.content.xml', aemComponentContentXml.getContentXml(aemName, superType, componentGroup), function(err) {
                 if (err) throw err;
                 console.log('Created AEM component content xml');
             });
@@ -115,7 +128,7 @@ function generateComponent(projectRoot, name, projectFolder, componentGroup) {
 
 function generateTemplate(projectRoot, name) {
     if (isReactProject) {
-
+        console.log('react not implemented yet, please create your own files');
     } else {
         console.log('angular not implemented yet, please use ng generate');
     }
