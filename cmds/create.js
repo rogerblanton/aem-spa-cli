@@ -91,7 +91,7 @@ module.exports = (args) => {
         const commands = ['archetype:generate'];
         const defines = {
             'interactiveMode': false,
-            'archetypeCatalog': 'local',
+            'archetypeCatalog': 'remote',
             'archetypeGroupId': 'com.adobe.cq.spa.archetypes',
             'archetypeArtifactId': 'aem-spa-project-archetype',
             'archetypeVersion': '1.0.3-SNAPSHOT',
