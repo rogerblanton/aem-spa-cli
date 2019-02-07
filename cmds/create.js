@@ -1,6 +1,6 @@
 const mvn = require('maven').create();
 const inquirer = require('inquirer');
-const ora = require('ora')
+const ora = require('ora');
 
 module.exports = (args) => {
 

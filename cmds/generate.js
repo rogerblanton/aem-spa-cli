@@ -3,30 +3,18 @@ const findRoot = require('find-root');
 const path = require('path');
 let isAngularProject = false;
 let isReactProject = false;
+const inquirer = require('inquirer');
+const ora = require('ora');
 let reactComponentJsText = require('../templates/react/react-component-js');
 let aemComponentContentXml = require('../templates/aem/aem-component-content-xml');
 let aemComponentEditConfig = require('../templates/aem/aem-component-edit-config');
 let aemComponentHtml = require('../templates/aem/aem-component-html');
+let aemJava = require('../templates/aem/aem-java');
+let aemJavaImpl = require('../templates/aem/aem-java-impl');
+
 
 module.exports = (args) => {
     let item = args._[1];
-    let name = args._[2];
-
-    let projectFolder = null;
-    if (args.projectFolder || args.p) {
-        projectFolder = args.projectFolder || args.p;
-    }
-
-    let superType = null;
-    if (args.superType || args.s) {
-        superType = args.superType || args.s;
-    }
-
-    let componentGroup = null;
-
-    if (args.componentGroup || args.c) {
-        componentGroup = args.componentGroup || args.c;
-    }
 
     const aemSpaProjectRoot = findRoot(process.cwd(), function (dir) {
         return fs.existsSync(path.resolve(dir, 'ui.apps')) && fs.existsSync(path.resolve(dir, 'ui.content'));
@@ -39,13 +27,13 @@ module.exports = (args) => {
     if (isAngularProject || isReactProject) {
         switch (item) {
             case 'template':
-                console.log('going to generate a template named ' + name);
+                console.log('going to generate a template');
                 generateTemplate(aemSpaProjectRoot, name, projectFolder, componentGroup, superType);
                 break;
 
             case 'component':
                 console.log('going to generate a component named ' + name);
-                generateComponent(aemSpaProjectRoot, name, projectFolder, componentGroup, superType);
+                componentQuestions(aemSpaProjectRoot);
                 break;
 
             default:
@@ -59,23 +47,8 @@ module.exports = (args) => {
 };
 
 
-function generateComponent(projectRoot, name, projectFolder, componentGroup, superType) {
+function generateComponent(projectRoot, name, projectFolder, componentGroup, superType, javaPackage, spinner) {
     if (isReactProject) {
-
-        if (componentGroup == null) {
-            console.log('component group not specified, using react default of "reactApp"');
-            componentGroup = 'reactApp';
-        }
-
-        if (projectFolder == null) {
-            console.log('project folder not specified, using react default of "reactApp"');
-            projectFolder = 'reactApp';
-        }
-
-        if (superType == null) {
-            console.log('using default superType of core text component');
-            superType = "core/wcm/components/text/v2/text";
-        }
 
         let aemName = name;
         let aemPath = projectRoot + '/ui.apps/src/main/content/jcr_root/apps/' + projectFolder + '/components/' + aemName;
@@ -106,24 +79,99 @@ function generateComponent(projectRoot, name, projectFolder, componentGroup, sup
                 console.log('Created React component css file');
             });
 
+            if (javaPackage) {
+                // fs.outputFile(reactComponentPath + '/' + name + '.js', reactComponentJsText.getJsContent(name, aemName, projectFolder), function(err) {
+                //     if (err) throw err;
+                //     console.log('Created React component js file');
+                // });
+                //
+                // fs.outputFile(reactComponentPath + '/' + name + '.css', '', function(err) {
+                //     if (err) throw err;
+                //     console.log('Created React component css file');
+                // });
+            }
+
             fs.appendFile(projectRoot + '/react-app/src/ImportComponents.js', 'require(\'./components/'+ name +'/' + name + '\');', function (err) {
                 if (err) throw err;
                 console.log('ImportComponents updated');
             });
+            spinner.stop();
         }
 
     } else {
-        if (componentGroup == null) {
-            console.log('component group not specified, using angular default of "angularApp"');
-            componentGroup = 'angularApp';
-        }
-
-        if (projectFolder == null) {
-            console.log('project folder not specified, using angular default of "angularApp"');
-            projectFolder = 'angularApp';
-        }
         console.log('angular not implemented yet, please use ng generate');
     }
+}
+
+function componentQuestions(projectRoot) {
+
+    let questions = [
+        {
+            type: 'input',
+            name: 'componentName',
+            message: 'Component name?',
+            default: function () {
+                return 'something';
+            }
+        },
+        {
+            type: 'input',
+            name: 'projectFolder',
+            message: 'Project folder (first folder after \'apps\')?',
+            default: function () {
+                return 'customComponents';
+            }
+        },
+        {
+            type: 'input',
+            name: 'secondaryFolder',
+            message: 'Secondary nav folder? (folder after \'components\') *optional*',
+        },
+        {
+            type: 'input',
+            name: 'superType',
+            message: 'super type for this component, leave blank if custom *optional*',
+        },
+        {
+            type: 'input',
+            name: 'componentGroup',
+            message: 'Component Group (Name of the component group in AEM Editor):',
+            default: function () {
+                return 'customComponents';
+            }
+        },
+        {
+            type: 'input',
+            name: 'package',
+            message: 'Package Name if java classes are needed (leave blank if you don\'t want java classes generated) *optional*',
+        },
+        {
+            type: 'confirm',
+            name: 'allGood',
+            message: 'Review your above selections. Ready to generate component?',
+            default: function () {
+                return false;
+            }
+        }
+    ];
+
+    inquirer.prompt(questions).then(answers => {
+
+        if (answers['allGood']) {
+            const spinner = ora('Generating Component').start();
+
+            let name = answers['name'];
+            let projectFolder = answers['projectFolder'];
+            let componentGroup = answers['componentGroup'];
+            let superType = answers['superType'];
+            let javaPackage = answers['package'];
+
+            generateComponent(projectRoot, name, projectFolder, componentGroup, superType, javaPackage, spinner);
+
+        } else {
+            console.log('Exiting component generation...');
+        }
+    });
 }
 
 function generateTemplate(projectRoot, name) {
