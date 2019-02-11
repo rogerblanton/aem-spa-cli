@@ -52,6 +52,7 @@ function generateComponent(projectRoot, name, projectFolder, componentGroup, sup
 
         let aemName = name;
         let aemPath = projectRoot + '/ui.apps/src/main/content/jcr_root/apps/' + projectFolder + '/components/' + aemName;
+        let javaRoot = projectRoot + '/core/src/main/java';
         name = name.replace(/^\w/, c => c.toUpperCase());
         let reactComponentPath = projectRoot + '/react-app/src/components/' + name;
         let componentExists = fs.existsSync(path.resolve(projectRoot, projectFolder + '/src/components/' + name));
@@ -143,7 +144,7 @@ function componentQuestions(projectRoot) {
         {
             type: 'input',
             name: 'package',
-            message: 'Package Name if java classes are needed (leave blank if you don\'t want java classes generated) *optional*',
+            message: 'Package Name if java classes are needed (full package name, i.e. com.my.app.component. leave blank if you don\'t want java classes generated) *optional*',
         },
         {
             type: 'confirm',
