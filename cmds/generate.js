@@ -81,15 +81,17 @@ function generateComponent(projectRoot, name, projectFolder, componentGroup, sup
             });
 
             if (javaPackage) {
-                // fs.outputFile(reactComponentPath + '/' + name + '.js', reactComponentJsText.getJsContent(name, aemName, projectFolder), function(err) {
-                //     if (err) throw err;
-                //     console.log('Created React component js file');
-                // });
-                //
-                // fs.outputFile(reactComponentPath + '/' + name + '.css', '', function(err) {
-                //     if (err) throw err;
-                //     console.log('Created React component css file');
-                // });
+                let packagePath = javaPackage.replace('.', '/');
+                fs.outputFile(javaRoot + '/' + packagePath + '.java', aemJava.getJava(javaPackage, aemName), function(err) {
+                    if (err) throw err;
+                    console.log('Created React component js file');
+                });
+
+                //TODO not sure if this will work, the supertype
+                fs.outputFile(javaRoot + '/' + packagePath + '.java', aemJavaImpl.getJavaImpl(javaPackage, aemName, superType), function(err) {
+                    if (err) throw err;
+                    console.log('Created React component js file');
+                });
             }
 
             fs.appendFile(projectRoot + '/react-app/src/ImportComponents.js', 'require(\'./components/'+ name +'/' + name + '\');', function (err) {
