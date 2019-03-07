@@ -5,12 +5,18 @@
   "bin": {
     "aem-spa": "bin/aem-spa"
   },
-  "scripts": {},
-  "devDependencies": {},
+  "scripts": {
+    "preinstall": "version=$(latest-github-release -o adobe -r aem-spa-project-archetype -V) && download $(latest-github-release -o adobe -r aem-spa-project-archetype -d \"jar\") > aem-spa-project-archetype-$version.jar && mvn install:install-file -Dfile=aem-spa-project-archetype-$version.jar -DgroupId=com.adobe.cq.spa.archetypes -DartifactId=aem-spa-project-archetype -Dversion=$version -Dpackaging=jar -DgeneratePom=true"
+  },
+  "devDependencies": {
+    "shx": "^0.3.2"
+  },
   "dependencies": {
+    "download-cli": "^1.1.1",
     "find-root": "^1.1.0",
     "fs-extra": "^7.0.1",
     "inquirer": "^6.2.1",
+    "latest-github-release": "^1.0.4",
     "maven": "^4.4.1",
     "minimist": "^1.2.0",
     "ora": "^3.0.0"
