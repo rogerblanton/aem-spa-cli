@@ -24,4 +24,4 @@ Run `aem-spa help` to see the helpful menu.
 Run `aem-spa version` to see the currently installed version.
 
 
-
+[adobe-public-maven-repo]: https://helpx.adobe.com/experience-manager/kb/SetUpTheAdobeMavenRepository.html
