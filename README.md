@@ -6,7 +6,7 @@ A node cli to get started with the new AEM SPA editor. *Work in progress, consid
 - [Java](https://www.java.com/en/download/) 1.8 or higher
 - [Maven](https://maven.apache.org/) 3.5.0 or higher
 - [npm](https://npmjs.com)
-- Include the [Adobe Public Maven Repository](adobe-public-maven-repo) in your maven settings
+- Include the [Adobe Public Maven Repository][1] in your maven settings
 - May need to also install the archetype locally from https://github.com/adobe/aem-spa-project-archetype
   - Clone the archetype project
   - In that directory run `mvn clean install archetype:update-local-catalog`
@@ -24,4 +24,4 @@ Run `aem-spa help` to see the helpful menu.
 Run `aem-spa version` to see the currently installed version.
 
 
-[adobe-public-maven-repo]: https://helpx.adobe.com/experience-manager/kb/SetUpTheAdobeMavenRepository.html
+[1]: https://helpx.adobe.com/experience-manager/kb/SetUpTheAdobeMavenRepository.html
